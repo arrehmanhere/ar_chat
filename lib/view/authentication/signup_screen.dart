@@ -69,6 +69,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 top: getProportionateScreenHeight(8),
               ),
               child: SingleChildScrollView(
+                clipBehavior: Clip.none,
                 child: !isLoading
                     ? Form(
                         key: formKey,
@@ -168,9 +169,6 @@ class _SignupScreenState extends State<SignupScreen> {
                             CustomActionButton(
                               buttonText: 'Sign Up',
                               onPressed: () async {
-                                setState(() {
-                                  isLoading = true;
-                                });
                                 if (formKey.currentState!.validate()) {
                                   if (selectedImage == null) {
                                     _alertService.showToast(
@@ -178,6 +176,9 @@ class _SignupScreenState extends State<SignupScreen> {
                                         context: context);
                                     return;
                                   }
+                                  setState(() {
+                                    isLoading = true;
+                                  });
                                   bool isSignUp = await _authService.signUp(
                                     emailController.text,
                                     passwordController.text,

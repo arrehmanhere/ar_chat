@@ -8,6 +8,7 @@ import 'package:ar_chat/services/auth_service.dart';
 import 'package:ar_chat/theme/app_colors.dart';
 import 'package:ar_chat/utils/form_validate.dart';
 import 'package:ar_chat/view/authentication/signup_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
@@ -26,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final GetIt _getIt = GetIt.instance;
 
+  bool isLoading = false;
   late AuthService _authService;
 
   late AlertService _alertService;
@@ -49,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
+        body: !isLoading ? SafeArea(
           child: Padding(
             padding: EdgeInsets.only(
               left: getProportionateScreenWidth(16),
@@ -117,6 +119,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         if (formKey.currentState!.validate()) {
                           print('Email: ${emailController.text}');
                           print('Password: ${passwordController.text}');
+                          setState(() {
+                            isLoading = true;
+                          });
                           bool isLogin = await _authService.login(
                               emailController.text, passwordController.text);
                           print('isLogin: $isLogin');
@@ -140,6 +145,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         //         index: 0,
                         //       ),
                         //     ));
+                        setState(() {
+                          isLoading = false;
+                        });
                       },
                     ),
                     SizedBox(
@@ -184,6 +192,11 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-        ));
+        ) : const Center(
+          child: CupertinoActivityIndicator(
+            radius: 20,
+            color: kPrimaryColor,
+          ),
+        ),);
   }
 }

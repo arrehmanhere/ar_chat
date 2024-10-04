@@ -31,19 +31,11 @@ class _SplashLoadScreenState extends State<SplashLoadScreen> {
         height: double.infinity,
         width: double.infinity,
         color: const Color(0XFFFDFDFD),
-        child: Center(
+        child: const Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                Assets.iconsAppIcon,
-                width: getProportionateScreenWidth(92),
-                height: getProportionateScreenHeight(103),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              const CupertinoActivityIndicator(
+              CupertinoActivityIndicator(
                 radius: 12,
                 color: kPrimaryColor,
               ),
