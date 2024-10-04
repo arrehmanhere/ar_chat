@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "984287333406",
+    "project_id": "ar-chat-app-bfb45",
+    "storage_bucket": "ar-chat-app-bfb45.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:984287333406:android:f307bc64247c037b30720f",
+        "android_client_info": {
+          "package_name": "com.example.ar_chat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAt5LG1l8RvOhMUmI0ABw8FwpasoW2sDbU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
