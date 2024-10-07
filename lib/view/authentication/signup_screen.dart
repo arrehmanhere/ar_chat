@@ -4,10 +4,13 @@ import 'package:ar_chat/components/custom_action_button.dart';
 import 'package:ar_chat/components/custom_text_field.dart';
 import 'package:ar_chat/constants/app_styles.dart';
 import 'package:ar_chat/generated/assets.dart';
+import 'package:ar_chat/model/user_profile.dart';
 import 'package:ar_chat/routes/routes.dart';
 import 'package:ar_chat/services/alert_service.dart';
 import 'package:ar_chat/services/auth_service.dart';
+import 'package:ar_chat/services/database_service.dart';
 import 'package:ar_chat/services/media_service.dart';
+import 'package:ar_chat/services/storage_service.dart';
 import 'package:ar_chat/theme/app_colors.dart';
 import 'package:ar_chat/utils/form_validate.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,6 +36,9 @@ class _SignupScreenState extends State<SignupScreen> {
   late MediaService _mediaService;
   late AlertService _alertService;
   late AuthService _authService;
+  late StorageService _storageService;
+  late DatabaseService _databaseService;
+
   bool isLoading = false;
 
   @override
@@ -40,6 +46,8 @@ class _SignupScreenState extends State<SignupScreen> {
     _mediaService = _getIt.get<MediaService>();
     _alertService = _getIt.get<AlertService>();
     _authService = _getIt.get<AuthService>();
+    _storageService = _getIt.get<StorageService>();
+    _databaseService = _getIt.get<DatabaseService>();
     super.initState();
   }
 
@@ -184,14 +192,29 @@ class _SignupScreenState extends State<SignupScreen> {
                                     passwordController.text,
                                   );
                                   if (isSignUp) {
-                                    print('isSignUp: $isSignUp');
-                                    emailController.clear();
-                                    passwordController.clear();
-                                    confirmPasswordController.clear();
-                                    nameController.clear();
-                                    _alertService.showToast(
-                                        message: "Successfully signed up",
-                                        context: context);
+                                    String? profileUrl = await _storageService
+                                        .uploadUserProfilePic(
+                                            file: selectedImage!,
+                                            uid: _authService.user!.uid);
+                                    if (profileUrl != null) {
+                                      await _databaseService.createUserProfile(
+                                        userProfile: UserProfile(
+                                          uid: _authService.user!.uid,
+                                          name: nameController.text,
+                                          pfpURL: profileUrl,
+                                        ),
+                                      );
+                                      Navigator.pushNamedAndRemoveUntil(context, AppLinks.homeScreen, (route) => false);
+                                      _alertService.showToast(
+                                          message: "Successfully signed up",
+                                          icon: Icons.check,
+                                          context: context);
+                                    } else {
+                                      throw Exception("Unable to upload image");
+                                    }
+                                  }
+                                  else {
+                                    throw Exception("Unable to register user");
                                   }
                                 }
                                 setState(() {
@@ -236,14 +259,15 @@ class _SignupScreenState extends State<SignupScreen> {
                           ],
                         ))
                     : Padding(
-                      padding:  EdgeInsets.only(top: getProportionateScreenHeight(350)),
-                      child: const Center(
-                        child: CupertinoActivityIndicator(
-                          radius: 20,
-                          color: kPrimaryColor,
+                        padding: EdgeInsets.only(
+                            top: getProportionateScreenHeight(350)),
+                        child: const Center(
+                          child: CupertinoActivityIndicator(
+                            radius: 20,
+                            color: kPrimaryColor,
+                          ),
                         ),
                       ),
-                    ),
               ),
             ),
           ],

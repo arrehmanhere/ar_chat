@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -33,10 +30,7 @@ class DefaultFirebaseOptions {
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -50,19 +44,40 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAt5LG1l8RvOhMUmI0ABw8FwpasoW2sDbU',
-    appId: '1:984287333406:android:f307bc64247c037b30720f',
-    messagingSenderId: '984287333406',
-    projectId: 'ar-chat-app-bfb45',
-    storageBucket: 'ar-chat-app-bfb45.appspot.com',
+    apiKey: 'AIzaSyCrURqYvD63JWapksxR71OXthgL7Rb9Dcc',
+    appId: '1:457007825339:android:c65a65731fb61c03c6849e',
+    messagingSenderId: '457007825339',
+    projectId: 'ar-chat-app-e7782',
+    storageBucket: 'ar-chat-app-e7782.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyARgl1Lm_YVbTAM6CrTVwgWmnDQ-_iyf8c',
-    appId: '1:984287333406:ios:746ce1e8bc4912db30720f',
-    messagingSenderId: '984287333406',
-    projectId: 'ar-chat-app-bfb45',
-    storageBucket: 'ar-chat-app-bfb45.appspot.com',
+    apiKey: 'AIzaSyC3Y1GSSjx_SCIZGMV030Z-e0IlqLFjt1U',
+    appId: '1:457007825339:ios:563629178af90f7ec6849e',
+    messagingSenderId: '457007825339',
+    projectId: 'ar-chat-app-e7782',
+    storageBucket: 'ar-chat-app-e7782.appspot.com',
     iosBundleId: 'com.example.arChat',
   );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyDwHGVsAJSoPRxny9TcTwQYkvykVkZieds',
+    appId: '1:457007825339:web:4a037adfacca8b0ec6849e',
+    messagingSenderId: '457007825339',
+    projectId: 'ar-chat-app-e7782',
+    authDomain: 'ar-chat-app-e7782.firebaseapp.com',
+    storageBucket: 'ar-chat-app-e7782.appspot.com',
+    measurementId: 'G-3Y36HG2QJP',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyDwHGVsAJSoPRxny9TcTwQYkvykVkZieds',
+    appId: '1:457007825339:web:460546cf44757f4cc6849e',
+    messagingSenderId: '457007825339',
+    projectId: 'ar-chat-app-e7782',
+    authDomain: 'ar-chat-app-e7782.firebaseapp.com',
+    storageBucket: 'ar-chat-app-e7782.appspot.com',
+    measurementId: 'G-B8WMMXVFY4',
+  );
+
 }

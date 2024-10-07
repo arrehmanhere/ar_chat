@@ -2,7 +2,6 @@ import 'package:ar_chat/routes/routes.dart';
 import 'package:ar_chat/services/auth_service.dart';
 import 'package:ar_chat/theme/theme.dart';
 import 'package:ar_chat/utils/utils.dart';
-import 'package:ar_chat/view/home/home_screen.dart';
 import 'package:ar_chat/view/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -20,6 +19,7 @@ Future<void> setup() async {
 }
 
 late AuthService _authService;
+GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
   MyApp({super.key}) {
@@ -34,7 +34,9 @@ class MyApp extends StatelessWidget {
       title: 'AR Chat',
       theme: AppTheme.lightTheme,
       home: const SplashScreen(),
+      // initialRoute: _authService.user != null ? AppLinks.homeScreen : AppLinks.loginScreen,
       routes: AppRoutes.routes,
+      navigatorKey: _navigatorKey,
     );
   }
 }
